@@ -1,11 +1,15 @@
 public class Account {
     private double amount;
-    private Owner owner;
+    private AccountHolder accountHolder;
+    private Auditor auditor;
 
-    public Account(double amount, Owner owner) {
+    public Account(double amount, AccountHolder accountHolder, Auditor auditor) {
         this.amount = amount;
-        this.owner = owner;
+        this.accountHolder = accountHolder;
+        this.auditor = auditor;
     }
+
+
 
     public void addMoney(double addedAmount) {
         if(addedAmount<0)
@@ -15,9 +19,12 @@ public class Account {
 
     public void withdraw(double withdrawnAmount) {
         amount -= withdrawnAmount;
-        if(amount < 0) {
-            owner.notifyByEmail();
+        if (amount < 0) {
+            System.out.print("Case nfksdfnsf");
+            accountHolder.notifyByEmail();
+            auditor.notifyByEmail();
         }
+
     }
 
     @Override
