@@ -20,7 +20,6 @@ public class Account {
     public void withdraw(double withdrawnAmount) {
         amount -= withdrawnAmount;
         if (amount < 0) {
-            System.out.print("Case nfksdfnsf");
             accountHolder.notifyByEmail();
             auditor.notifyByEmail();
         }
