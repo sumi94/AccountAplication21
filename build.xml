@@ -1,0 +1,52 @@
+<?xml version="1.0"?>
+<project name="Account" basedir="." default="build">
+   <property name="src.dir" value="src"/>
+   <property name="out.dir" value="out"/>
+   <property name="build.dir" value="${out.dir}/production/AccountApplication"/>
+   <property name="test.dir" value="${out.dir}/test/AccountApplication"/>
+   <property name="testsrc.dir" value="test"/>
+   <property name="name" value="Account"/>
+
+   <path id="master-classpath">
+      <fileset dir="lib">
+         <include name="*.jar"/>
+      </fileset>
+      <pathelement path="${build.dir}"/>
+      <pathelement path="${test.dir}"/>
+   </path>
+
+   <target name="build" description="Compile source files">
+      <mkdir dir="${build.dir}"/>
+      <javac destdir="${build.dir}" source="1.5" target="1.5">
+         <src path="${src.dir}"/>
+         <classpath refid="master-classpath"/>
+      </javac>
+   </target>
+   <target name="compileTests" description="Compile test files">
+      <mkdir dir="${test.dir}"/>
+      <javac destdir="${test.dir}">
+         <src path="${testsrc.dir}"/>
+         <classpath refid="master-classpath"/>
+      </javac>
+   </target>
+  <target name="build-jar">
+   <jar destfile = "${out.dir}/lib/AccountApplication.jar"
+   basedir = "${build.dir}"
+   includes = "**"
+   excludes = "**/Test.class">
+   </jar>
+  </target>   
+  <target name="unittest">
+   <junit haltonfailure="true" printsummary="true">
+      <test name="AccountTest"/>
+      <classpath refid="master-classpath"/>
+   </junit>
+</target>
+   <target name="clean" description="Clean output directories">
+      <delete>
+         <fileset dir="${build.dir}">
+            <include name="**/*.class"/>
+         </fileset>
+      </delete>
+   </target>
+</project>
