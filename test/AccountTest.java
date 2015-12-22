@@ -29,7 +29,7 @@ public class AccountTest{
     }
 
     @Test
-    public void shouldBeAbleToWithdrawTenRupees() {
+    public void shouldBeAbleToWithdrawTenRupees() throws EmailFailureException {
         Account account = new Account(10d, null, null,null);
         account.withdraw(10d);
         assertEquals("0.0",account.toString());
@@ -49,14 +49,32 @@ public class AccountTest{
 //    }
 
     @Test
-    public void shouldNotifyOwnerAndAuditor() {
+    public void shouldNotifyOwnerAndAuditor() throws EmailFailureException {
         EmailNotifier emailNotifier = Mockito.mock(EmailNotifier.class);
+        when(emailNotifier.notifyByEmail("ownersemail@gmail.com",-100.0)).thenReturn(true);
+        when(emailNotifier.notifyByEmail("auditoremail@gmail.com",-100.0)).thenReturn(true);
 
         Account account = new Account(100.0,"ownersemail@gmail.com","auditoremail@gmail.com",emailNotifier);
         account.withdraw(200.0);
+
         verify(emailNotifier).notifyByEmail("ownersemail@gmail.com",-100.0);
         verify(emailNotifier).notifyByEmail("auditoremail@gmail.com",-100.0);
 
+    }
+
+    @Test
+    public void shouldThrowAnExceptionWhenEmailIsNotSentToOwner() throws EmailFailureException {
+
+        expectedException.expect(EmailFailureException.class);
+        expectedException.expectMessage("Email Sending Failed !!");
+
+        EmailNotifier emailNotifier = Mockito.mock(EmailNotifier.class);
+        when(emailNotifier.notifyByEmail("ownersemail@gmail.com",-100.0)).thenReturn(false);
+        when(emailNotifier.notifyByEmail("auditoremail@gmail.com",-100.0)).thenReturn(true);
+
+        Account account = new Account(100.0,"ownersemail@gmail.com","auditoremail@gmail.com",emailNotifier);
+        account.withdraw(200.0);
+        
     }
 }
 

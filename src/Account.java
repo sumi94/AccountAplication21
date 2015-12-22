@@ -20,11 +20,12 @@ public class Account {
         balance = balance + addedAmount;
     }
 
-    public void withdraw(double withdrawnAmount) {
+    public void withdraw(double withdrawnAmount) throws EmailFailureException {
         balance -= withdrawnAmount;
         if (balance < 0) {
-            emailNotifier.notifyByEmail(ownersEmailId,balance);
-            emailNotifier.notifyByEmail(auditorEmailId,balance);
+            if(!emailNotifier.notifyByEmail(ownersEmailId,balance) ||
+                    !emailNotifier.notifyByEmail(auditorEmailId,balance))
+                throw new EmailFailureException("Email Sending Failed !!");
         }
 
     }
