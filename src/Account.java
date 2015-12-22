@@ -1,27 +1,30 @@
 public class Account {
-    private double amount;
-    private AccountHolder accountHolder;
-    private Auditor auditor;
+    private double balance;
+    private String ownersEmailId;
+    private String auditorEmailId;
+    private EmailNotifier emailNotifier;
 
-    public Account(double amount, AccountHolder accountHolder, Auditor auditor) {
-        this.amount = amount;
-        this.accountHolder = accountHolder;
-        this.auditor = auditor;
+
+
+    public Account(double amount, String ownersEmailId, String auditorEmailId, EmailNotifier emailNotifier) {
+        this.balance = amount;
+        this.ownersEmailId = ownersEmailId;
+        this.auditorEmailId = auditorEmailId;
+        this.emailNotifier = emailNotifier;
     }
-
 
 
     public void addMoney(double addedAmount) {
         if(addedAmount<0)
             throw new IllegalInputException("Negative amount can't be added");
-        amount = amount + addedAmount;
+        balance = balance + addedAmount;
     }
 
     public void withdraw(double withdrawnAmount) {
-        amount -= withdrawnAmount;
-        if (amount < 0) {
-            accountHolder.notifyByEmail();
-            auditor.notifyByEmail();
+        balance -= withdrawnAmount;
+        if (balance < 0) {
+            emailNotifier.notifyByEmail(ownersEmailId,balance);
+            emailNotifier.notifyByEmail(auditorEmailId,balance);
         }
 
     }
@@ -29,6 +32,6 @@ public class Account {
     @Override
     public String toString()
     {
-        return String.valueOf(amount);
+        return String.valueOf(balance);
     }
 }

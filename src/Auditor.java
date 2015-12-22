@@ -6,7 +6,7 @@ public class Auditor implements EmailNotifier{
         this.emailID = emailID;
     }
 
-    public boolean notifyByEmail() {
+    public boolean notifyByEmail(String emailId, double balance) {
         return true;
     }
 }

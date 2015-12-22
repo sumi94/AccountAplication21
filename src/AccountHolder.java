@@ -6,7 +6,7 @@ public class AccountHolder implements EmailNotifier{
         this.emailId = emailId;
     }
 
-    public boolean notifyByEmail() {
+    public boolean notifyByEmail(String emailId, double balance) {
           return true;
     }
 }

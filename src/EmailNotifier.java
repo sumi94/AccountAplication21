@@ -1,4 +1,7 @@
-public interface EmailNotifier {
+public class EmailNotifier {
 
-    public boolean notifyByEmail();
+    public boolean notifyByEmail(String emailId, double balance) {
+
+        return true;
+    }
 }
